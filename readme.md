@@ -7,9 +7,9 @@ Projet réalisé au sein de l’ARC édition nouvelles forme.
 ### prérequis 
 
 il faut installer, dans l’ordre : 
-- nodejs [http://nodejs.org/]
-- bower `sudo npm install -g bower` [http://bower.io/]
-- grunt `sudo npm install grunt-cli -g` [http://gruntjs.com/]
+- nodejs http://nodejs.org/
+- bower `sudo npm install -g bower` http://bower.io/
+- grunt `sudo npm install grunt-cli -g` http://gruntjs.com/
 
 ### installer les packages
 
