@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteEngine on
+RewriteCond %{DOCUMENT_ROOT} !-f
+RewriteRule ^paper/(.*)$ index.html [QSA,L]
