@@ -112,7 +112,6 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		},
 		resetInput:function(){
 			paper.$el.find('input').each(function () {
-				console.log($(this).data('default-value'));
 				$(this).val($(this).data('default-value'));
 			});
 		},
