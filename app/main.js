@@ -41,7 +41,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 			// Dropzone
 			//
 			$canvas.dropzone({
-				url: "post.php",
+				url: "post",
 				uploadMultiple: false,
 				acceptedFiles: "image/jpeg",
 				sending:function(){
@@ -131,7 +131,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 			var data = canvas.toDataURL('image/jpeg');
 			paper.waiting();
 			$.ajax({
-				url:'post.php',
+				url:'post',
 				method:'POST',
 				dataType: 'json',
 				data:{imageData:data},
