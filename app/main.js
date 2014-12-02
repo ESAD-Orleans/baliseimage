@@ -20,7 +20,8 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 	var Paper = Backbone.View.extend({
 		el:'#paper',
 		events:{
-			'change [type=range]':'updateFormValues'
+			'change [type=range]':'updateFormValues',
+			'click #sharer':'share'
 		},
 		initialize:function(){
 
@@ -47,6 +48,13 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 					var json = p.success ? p : JSON.parse(p);
 					Backbone.history.navigate('paper/' + json.filename,{trigger:true});
 				}
+			});
+
+			//
+			//
+			//
+			paper.$el.find('input').each(function(){
+				$(this).data('default-value',$(this).val());
 			});
 
 			//
@@ -101,6 +109,28 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		initializeEditor:function(){
 			context = canvas.getContext('2d');
 			paper.updateEditor();
+		},
+		resetInput:function(){
+			paper.$el.find('input').each(function () {
+				console.log($(this).data('default-value'));
+				$(this).val($(this).data('default-value'));
+			});
+		},
+		share:function(e){
+			e.preventDefault();
+			var data = canvas.toDataURL('image/jpeg');
+			$.ajax({
+				url:'post.php',
+				method:'POST',
+				data:{imageData:data},
+				success:function(r){
+					var json = r;
+					paper.resetInput();
+					Backbone.history.navigate('paper/' + r.filename, {trigger: true});
+					paper.updateFormValues();
+					window.prompt("partager cette url", window.location.href);
+				}
+			})
 		}
 	});
 
