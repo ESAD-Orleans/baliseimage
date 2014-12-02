@@ -27,7 +27,10 @@
 		"load-grunt-tasks": "*",
 		"requirejs": "*",
 		"time-grunt": "*",
-		"express": "*"
+		"express": "4.x",
+		"connect-busboy":"0.2.*",
+		"sha1":"1.1.0",
+		"mime-types":"2.0.x"
 
 	},
 	"devDependencies": {

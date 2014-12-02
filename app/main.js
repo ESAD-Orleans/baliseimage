@@ -44,7 +44,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 				uploadMultiple: false,
 				acceptedFiles: "image/jpeg",
 				success: function (data, p) {
-					var json = JSON.parse(p);
+					var json = p.success ? p :JSON.parse(p);
 					Backbone.history.navigate('paper/' + json.filename,{trigger:true});
 				}
 			});
