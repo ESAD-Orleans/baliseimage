@@ -71,6 +71,9 @@ if(isset($_POST['imageData'])){
 	$error = 'fichier non selectionné';
 }
 
+header('Cache-Control: no-cache, must-revalidate');
+header('Content-type: application/json');
+
 if($error){
 	$response['error'] = $error;
 }else if($success){
