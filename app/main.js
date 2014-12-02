@@ -44,7 +44,11 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 				url: "post.php",
 				uploadMultiple: false,
 				acceptedFiles: "image/jpeg",
+				sending:function(){
+					paper.waiting();
+				},
 				success: function (data, p) {
+					paper.waiting('stop');
 					var json = p.success ? p : JSON.parse(p);
 					Backbone.history.navigate('paper/' + json.filename,{trigger:true});
 				}
@@ -71,6 +75,13 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 			});
 			router.navigate(Backbone.history.fragment, {trigger: true});
 
+		},
+		waiting:function(stop){
+			if(stop){
+				$('.waiting').remove();
+			}else{
+				paper.$el.append($('<div class="waiting"></div>'));
+			}
 		},
 		//
 		// start editing an image
@@ -118,6 +129,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		share:function(e){
 			e.preventDefault();
 			var data = canvas.toDataURL('image/jpeg');
+			paper.waiting();
 			$.ajax({
 				url:'post.php',
 				method:'POST',
@@ -125,6 +137,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 				data:{imageData:data},
 				success:function(r){
 					var json = r;
+					paper.waiting('stop');
 					paper.resetInput();
 					Backbone.history.navigate('paper/' + r.filename, {trigger: true});
 					paper.updateFormValues();
