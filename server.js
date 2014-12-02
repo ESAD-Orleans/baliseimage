@@ -59,5 +59,9 @@ app.post('/baliseimage/post.php',function(req,res){
 app.get('/baliseimage/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
 });
+app.get('/baliseimage/paper/*', function (req, res) {
+	res.sendFile(__dirname + '/index.html');
+});
 
 app.listen(3000);
+console.log('server started : http://localhost:3000/baliseimage/');
