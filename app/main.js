@@ -121,6 +121,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 			$.ajax({
 				url:'post.php',
 				method:'POST',
+				dataType: 'json',
 				data:{imageData:data},
 				success:function(r){
 					var json = r;
