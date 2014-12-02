@@ -7,7 +7,7 @@ Projet réalisé au sein de l’ARC édition nouvelles forme.
 ### prérequis 
 
 le système peut tourner sur [nodejs](http://nodejs.org) 
-ou plus classiquement sur apache (via MAMP ou LAMP ou WAMP)
+ou sur PHP (via MAMP ou LAMP ou WAMP)
 
 il faut installer (pour une version de dev), dans l’ordre : 
 
@@ -21,11 +21,11 @@ il faut installer (pour une version de dev), dans l’ordre :
 
 	git clone https://github.com/ESAD-Orleans/baliseimage.git
 
-modules Nodejs
+installation des modules Nodejs
 	
 	npm install
 	
-modules javascript
+installation des modules javascript
 
 	bower install
 
