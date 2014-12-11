@@ -8,6 +8,9 @@ var app = express();
 app.get('/',function(req,res){
 	res.redirect('/baliseimage/');
 })
+app.get('/baliseimage/index.html',function(req,res){
+	res.redirect('/baliseimage/');
+})
 
 //
 app.use('/baliseimage/files', express.static(__dirname + '/files'))
