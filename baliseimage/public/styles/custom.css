@@ -1,0 +1,123 @@
+ html,body{
+    width: 100%;
+    height:100%;
+
+}
+body{
+   /*background-image: url(../images/logo_img.png);*/
+    background-repeat: no-repeat;
+    background-position: center center;
+
+}
+#paper form{
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    left: -400px;
+    top: -140px;
+}
+
+
+
+canvas{
+    position: absolute;
+    width: 320px;
+    height: 474px;
+}
+
+.logo{
+    position: absolute;
+    width:200px;
+    left: 270px;
+    top: 10px;
+}
+
+.motif1{
+    position: absolute;
+    width:250px;
+    left: 330px;
+    top: 550px;
+}
+
+.motif2{
+    position: absolute;
+    width:150px;
+    left: 1130px;
+    top: 350px;
+}
+
+.motif3{
+    position: absolute;
+    width:250px;
+    left: -70px;
+    top: 150px;
+}
+
+.motif4{
+    position: absolute;
+    width:180px;
+    left: 1130px;
+    top: 580px;
+}
+
+.motif5{
+    position: absolute;
+    width:180px;
+    left: 1130px;
+    top: 0px;
+}
+.motif6{
+    position: absolute;
+    width:100px;
+    left: 290px;
+    top: 290px;
+}
+
+.motif7{
+    position: absolute;
+    width:130px;
+    left: 790px;
+    top: 400px;
+}
+
+.motif8{
+    position: absolute;
+    width:130px;
+    left: 890px;
+    top: 140px;
+}
+
+.motif9{
+    position: absolute;
+    width:130px;
+    left: 10px;
+    top: 620px;
+}
+
+.motif10{
+    position: absolute;
+    width:130px;
+    left: 930px;
+    top: 480px;
+}
+
+.motif11{
+    position: absolute;
+    width:130px;
+    left: 380px;
+    top: 380px;
+}
+
+.motif12{
+    position: absolute;
+    width:130px;
+    left: 380px;
+    top: 0px;
+}
+
+.motif13{
+    position: absolute;
+    width:130px;
+    left: 380px;
+    top: 130px;
+}
