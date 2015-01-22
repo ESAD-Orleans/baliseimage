@@ -1,4 +1,4 @@
-define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,Backbone,_,glitch){
+define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone'],function($,Backbone,_,glitch,interact){
 
 
 	var BASE_URL = $('base').attr('href'),
@@ -13,12 +13,13 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		}
 		});
 
-	var paper,
+	var workshop,
+		paper,
 		$canvas, canvas,
 		context;
 	//
-	var Paper = Backbone.View.extend({
-		el:'#paper',
+	var Workshop = Backbone.View.extend({
+		el:'#workshop',
 		events:{
 			'change [type=range]':'updateFormValues',
 			'click #sharer':'share'
@@ -26,7 +27,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		initialize:function(){
 
 			// pattern singleton
-			paper = this;
+			workshop = this;
 
 
 			//
@@ -45,10 +46,10 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 				uploadMultiple: false,
 				acceptedFiles: "image/jpeg",
 				sending:function(){
-					paper.waiting();
+					workshop.waiting();
 				},
 				success: function (data, p) {
-					paper.waiting('stop');
+					workshop.waiting('stop');
 					var json = p.success ? p : JSON.parse(p);
 					Backbone.history.navigate('paper/' + json.filename,{trigger:true});
 				}
@@ -57,14 +58,81 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 			//
 			//
 			//
-			paper.$el.find('input').each(function(){
+			workshop.$el.find('input').each(function(){
 				$(this).data('default-value',$(this).val());
 			});
 
 			//
 			//
 			//
-			paper.updateFormValues();
+			interact('#paper').dropzone({
+
+			})
+
+			workshop.$el.find('.draganddropimage').each(function() {
+
+				var image = this, $image = $(this);
+				console.log(image);
+				//
+				interact(image).draggable({
+					inertia: true,
+					onmove:function(event){
+
+						// keep the dragged position in the data-x/data-y attributes
+							x = (parseFloat($image.attr('data-x')) || 0) + event.dx,
+							y = (parseFloat($image.attr('data-y')) || 0) + event.dy;
+
+						// translate the element
+						image.style.webkitTransform =
+							image.style.transform =
+								'translate(' + x + 'px, ' + y + 'px)';
+
+						// update the posiion attributes
+						$image.attr('data-x', x);
+						$image.attr('data-y', y);
+					}
+				});
+			})
+
+			/*
+			interact('.draganddropimage').draggable({
+				// enable inertial throwing
+				inertia: true,
+				onstart:function(e){
+					//this.startx =
+					//console.log(e);
+					console.log(this);
+				},
+				onmove:function(e){
+					//var target = e.target;
+					//console.log(e);
+				},
+				onend:function(e){
+
+				}
+			})
+
+			workshop.$el.find('.draganddropimage').each(function(){
+				var image = this;
+				console.log(image.src);
+				interact(image).draggable({
+					manualStart: true
+				}).on('hold',function(event){
+					var interaction = event.interaction;
+					console.log('hold')
+					if (!interaction.interacting()) {
+						interaction.start({name: 'drag'},
+							event.interactable,
+							event.currentTarget);
+					}
+				})
+
+			})*/
+
+			//
+			//
+			//
+			workshop.updateFormValues();
 
 			//
 			// Backbone History setup
@@ -80,7 +148,7 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 			if(stop){
 				$('.waiting').remove();
 			}else{
-				paper.$el.append($('<div class="waiting"></div>'));
+				workshop.$el.append($('<div class="waiting"></div>'));
 			}
 		},
 		//
@@ -89,16 +157,16 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		editPaper:function(id){
 			image = new Image();
 			$(image).on('load',function(){
-				paper.initializeEditor();
+				workshop.initializeEditor();
 			});
 			image.src = FILE_URL+id+'.jpg';
 		},
 		updateFormValues:function(){
-			paper.$el.find('input[type=range]').each(function(){
+			workshop.$el.find('input[type=range]').each(function(){
 				var range = $(this);
 				imageModel.set(range.attr('id'), range.val());
 			});
-			paper.updateEditor();
+			workshop.updateEditor();
 		},
 		updateEditor:function(){
 
@@ -119,17 +187,17 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 		},
 		initializeEditor:function(){
 			context = canvas.getContext('2d');
-			paper.updateEditor();
+			workshop.updateEditor();
 		},
 		resetInput:function(){
-			paper.$el.find('input').each(function () {
+			workshop.$el.find('input').each(function () {
 				$(this).val($(this).data('default-value'));
 			});
 		},
 		share:function(e){
 			e.preventDefault();
 			var data = canvas.toDataURL('image/jpeg');
-			paper.waiting();
+			workshop.waiting();
 			$.ajax({
 				url:'post',
 				method:'POST',
@@ -137,17 +205,17 @@ define(['jquery','backbone','underscore','glitch-canvas','dropzone'],function($,
 				data:{imageData:data},
 				success:function(r){
 					var json = r;
-					paper.waiting('stop');
-					paper.resetInput();
+					workshop.waiting('stop');
+					workshop.resetInput();
 					Backbone.history.navigate('paper/' + r.filename, {trigger: true});
-					paper.updateFormValues();
+					workshop.updateFormValues();
 					window.prompt("partager cette url", window.location.href);
 				}
 			})
 		}
 	});
 
-	new Paper();
+	new Workshop();
 
 
 
