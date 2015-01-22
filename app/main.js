@@ -52,7 +52,7 @@ define(['jquery','backbone','underscore',
 			// Dropzone
 			//
 			$canvas.dropzone({
-				url: "post",
+				url: "post.php",
 				uploadMultiple: false,
 				acceptedFiles: "image/jpeg",
 				sending:function(){
@@ -225,7 +225,7 @@ define(['jquery','backbone','underscore',
 			var data = canvas.toDataURL('image/jpeg');
 			workshop.waiting();
 			$.ajax({
-				url:'post',
+				url:'post.php',
 				method:'POST',
 				dataType: 'json',
 				data:{imageData:data},

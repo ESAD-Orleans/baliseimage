@@ -1,6 +1,8 @@
+<IfModule mod_rewrite.c>
 RewriteEngine On
-
-RewriteEngine on
+RewriteBase /baliseimage/
 RewriteCond %{DOCUMENT_ROOT} !-f
-RewriteRule ^paper/(.*)$ index.html [QSA,L]
-RewriteRule ^post$ post.php [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^paper/(.*)$ index.html [L]
+#RewriteRule ^post$ post.php [L]
+</IfModule>

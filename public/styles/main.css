@@ -38,10 +38,10 @@ h1 {
 #paper {
   width: 420px;
   height: 594px;
-  border: solid 1px #ccc;
   position: absolute;
   top: 100px;
-  left: 430px; }
+  left: 430px;
+  background: #eee; }
 
 form {
   width: 100%;
