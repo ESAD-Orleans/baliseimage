@@ -17,11 +17,13 @@ html,body{
 #workshop, #paper, h1{
   position: absolute;
   margin: auto;
+  box-sizing: border-box;
+}
+#workshop, h1{
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  box-sizing: border-box;
 }
 
 h1{
@@ -43,10 +45,9 @@ h1{
   width:420px;
   height:594px;
   border: solid 1px #ccc;
-  margin: auto;
-
   position: absolute;
-
+  top:100px;
+  left:430px;
 }
 
 form {
@@ -59,6 +60,7 @@ label {
   font-size: 1.6em;
   display: block;
   margin: 0;
+  width: 172px;
   input {
     margin: 5px 0;
     width:100%;
@@ -69,13 +71,14 @@ label {
     background-position: center center ;
   }
   &.glitch{
-
-    width:172px;
     // modifie la position des slider des glitch
     &.seed{left:210px; top:70px;}
     &.amount{left:220px; top:100px;}
     &.iterations{left:110px; top:200px;}
     &.quality{left:200px; top:500px;}
+  }
+  &.blur{
+    &.radius{left:1040px; top:540px}
   }
 }
 
@@ -83,22 +86,16 @@ label {
   position:absolute;
   outline: none;
   z-index:1;
-  &:focus{
-    background:#fff;
+  &:focus,&.dragged{
+    outline:10px solid transparentize(red,0.5);
   }
-}
-
-#doodle5 {
-  top: 300px;
-  left: 1000px;
-}
-#doodle7 {
-  top: 100px;
-  left: 900px;
-}
-#doodle8 {
-  top: 600px;
-  left: 200px;
+  &.can-drop{
+    outline:10px dotted transparentize(#0F0, 0.8);
+  }
+  &.dropped{
+    pointer-events: none;
+    opacity: 0;
+  }
 }
 
 #sharer{

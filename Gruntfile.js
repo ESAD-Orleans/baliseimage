@@ -60,7 +60,7 @@ module.exports = function (grunt) {
 				}
 			},
 			js: {
-				files: ['app/*.js','main.js'],
+				files: ['app/*.js','app/**/*.js','main.js'],
 				tasks: ['requirejs','copy:require']
 			}
 		}

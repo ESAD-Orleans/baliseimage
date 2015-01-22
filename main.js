@@ -10,7 +10,9 @@ require.config({
 		//
 		'dropzone':'bower_components/dropzone/downloads/dropzone-amd-module.min',
 		'interact':'bower_components/interact/interact.min',
+		'StackBlur':'bower_components/StackBlur/StackBlur',
 		'glitch-canvas':'bower_components/glitch-canvas/dist/glitch-canvas.min'
+		//
 	},
 	shim:{
 		'jquery':{

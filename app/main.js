@@ -1,11 +1,20 @@
-define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone'],function($,Backbone,_,glitch,interact){
-
+define(['jquery','backbone','underscore',
+		'app/models/ImageModel',
+		'app/models/EffectCollection',
+	'glitch-canvas', 'interact','StackBlur','dropzone'],
+	function($,Backbone,_,
+             ImageModel,
+             EffectCollection,
+             glitch,
+             interact
+		){
 
 	var BASE_URL = $('base').attr('href'),
 		FILE_URL = BASE_URL+"files/";
 
 	var image = new Image(),
-		imageModel = new Backbone.Model();
+		imageModel = new ImageModel(),
+		effectCollection = new EffectCollection();
 
 	var router = new Backbone.Router({
 		routes:{
@@ -28,6 +37,7 @@ define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone']
 
 			// pattern singleton
 			workshop = this;
+			paper = workshop.$el.find('#paper');
 
 
 			//
@@ -65,14 +75,16 @@ define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone']
 			//
 			//
 			//
-			interact('#paper').dropzone({
 
-			})
 
 			workshop.$el.find('.draganddropimage').each(function() {
 
 				var image = this, $image = $(this);
-				console.log(image);
+
+				image.style.webkitTransform =
+					image.style.transform =
+						'translate(' + $image.attr('data-x') + 'px, ' + $image.attr('data-y') + 'px)';
+				;
 				//
 				interact(image).draggable({
 					inertia: true,
@@ -92,42 +104,43 @@ define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone']
 						$image.attr('data-y', y);
 					}
 				});
-			})
+			});
 
-			/*
-			interact('.draganddropimage').draggable({
-				// enable inertial throwing
-				inertia: true,
-				onstart:function(e){
-					//this.startx =
-					//console.log(e);
-					console.log(this);
-				},
-				onmove:function(e){
-					//var target = e.target;
-					//console.log(e);
-				},
-				onend:function(e){
+			interact('#paper').dropzone({
+				// only accept elements matching this CSS selector
+				accept: '.draganddropimage',
+				// Require a 75% element overlap for a drop to be possible
+				overlap: 0.1,
 
+				// listen for drop related events:
+
+				ondropactivate: function (event) {
+					// add active dropzone feedback
+					$(event.relatedTarget).addClass('dragged');
+				},
+				ondragenter: function (event) {
+					$(event.relatedTarget).addClass('can-drop');
+				},
+				ondragleave: function (event) {
+					// remove the drop feedback style
+					$(event.relatedTarget).removeClass('can-drop');
+				},
+				ondrop: function (event) {//
+					var image = $(event.relatedTarget);
+					image.removeClass('dragged can-drop').addClass('dropped');
+					image.data('offset',{
+						left: parseInt(image.attr('data-x'))-paper.position().left,
+						top: parseInt(image.attr('data-y'))-paper.position().top
+					});
+					workshop.updateEditor();
+				},
+				ondropdeactivate: function (event) {
+					// remove active dropzone feedback
+					$(event.relatedTarget).removeClass('dragged');
 				}
-			})
+			});
 
-			workshop.$el.find('.draganddropimage').each(function(){
-				var image = this;
-				console.log(image.src);
-				interact(image).draggable({
-					manualStart: true
-				}).on('hold',function(event){
-					var interaction = event.interaction;
-					console.log('hold')
-					if (!interaction.interacting()) {
-						interaction.start({name: 'drag'},
-							event.interactable,
-							event.currentTarget);
-					}
-				})
 
-			})*/
 
 			//
 			//
@@ -173,6 +186,14 @@ define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone']
 			if(_.isUndefined(context)) return;
 			context.drawImage(image, 0, 0);
 
+			stackBlurCanvasRGB('canvas', 0, 0, canvas.width, canvas.height, imageModel.get('blur-radius'));
+
+			workshop.$el.find('.draganddropimage.dropped').each(function () {
+				var offset = $(this).data('offset');
+				context.drawImage(this, offset.left, offset.top);
+			});
+
+
 			var my_image_data = context.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
 			var parameters = {
 				amount: imageModel.get('glitch-amount'),
@@ -184,6 +205,11 @@ define(['jquery','backbone','underscore','glitch-canvas', 'interact','dropzone']
 			glitch(my_image_data, parameters, function(image_data){
 				context.putImageData(image_data, 0, 0);
 			});
+
+
+
+
+
 		},
 		initializeEditor:function(){
 			context = canvas.getContext('2d');
