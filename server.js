@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	limit: '50mb'
 }));
 
-app.post('/baliseimage/post',require('./post').post);
+app.post('/baliseimage/post.php',require('./post').post);
 
 app.get('/baliseimage/', function (req, res) {
 	res.sendFile(__dirname + '/index.html');
