@@ -1,9 +1,7 @@
 define(['jquery','backbone','underscore',
-		'app/models/ImageModel',
-	'glitch-canvas', 'interact','dropzone'],
+		'app/models/ImageModel', 'interact','dropzone'],
 	function($,Backbone,_,
              ImageModel,
-             glitch,
              interact
 		){
 
@@ -196,9 +194,7 @@ define(['jquery','backbone','underscore',
 				quality: imageModel.get('glitch-quality')
 			};
 
-			glitch(my_image_data, parameters, function(image_data){
-				context.putImageData(image_data, 0, 0);
-			});
+
 
 
 

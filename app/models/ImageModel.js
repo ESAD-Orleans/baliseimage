@@ -18,7 +18,6 @@ define(['underscore', 'jquery', 'backbone','app/models/EffectCollection'], funct
 			this.trigger('load:image');
 		},
 		render:function(context){
-
 			context.drawImage(this.image, 0, 0);
 			this.effects.render(context);
 
