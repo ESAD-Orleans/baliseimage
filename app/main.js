@@ -128,7 +128,7 @@ define(['jquery','backbone','underscore',
 						left: parseInt(image.attr('data-x'))-paper.position().left,
 						top: parseInt(image.attr('data-y'))-paper.position().top
 					});
-					workshop.updateEditor();
+					workshop.updateFormValues();
 				},
 				ondropdeactivate: function (event) {
 					// remove active dropzone feedback
@@ -167,10 +167,18 @@ define(['jquery','backbone','underscore',
 			imageModel.set('image', FILE_URL + id + '.jpg');
 		},
 		updateFormValues:function(){
+			// update input range values
 			workshop.$el.find('input[type=range]').each(function(){
 				var range = $(this);
 				imageModel.set(range.attr('id'), range.val());
 			});
+			// update image drag & drop values
+			var dragAndDropImages = _([]);
+			workshop.$el.find('.draganddropimage.dropped').each(function () {
+				dragAndDropImages.push(this);
+			});
+			imageModel.set('dragAndDropImages', dragAndDropImages);
+			//
 			workshop.updateEditor();
 		},
 		updateEditor:function(){
@@ -179,12 +187,6 @@ define(['jquery','backbone','underscore',
 			if(_.isUndefined(context)) return;
 
 			imageModel.render(context);
-
-			workshop.$el.find('.draganddropimage.dropped').each(function () {
-				var offset = $(this).data('offset');
-				context.drawImage(this, offset.left, offset.top);
-			});
-
 
 			var my_image_data = context.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
 			var parameters = {
