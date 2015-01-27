@@ -15,7 +15,11 @@ define(['underscore', 'jquery', 'backbone', 'app/models/EffectModel' ,
 		},
 		setup:function(){
 			console.log('setup EffectCollection');
-			this.add([Blur(), DragAndDropImages(), Glitch()]);
+			this.add([
+				Blur(),
+				DragAndDropImages(),
+				Glitch()
+			]);
 		},
 		render:function(context,callback) {
 			var c = this;
