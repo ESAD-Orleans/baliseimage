@@ -53,7 +53,25 @@ h1{
 form {
   width:100%;
   height:100%;
+  #workshop.new &{
+    visibility: hidden;
+    opacity: 0;
+  }
 }
+.upload-image-help{
+  position:absolute;
+  right:50%;
+  top:50%;
+  visibility: hidden;
+  opacity: 0;
+  font-size:30px;
+  pointer-events: none;
+  #workshop.new &{
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 
 label {
   position:absolute;

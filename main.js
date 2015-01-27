@@ -4,9 +4,14 @@
 //
 require.config({
 	paths:{
+		//
+		'text':'bower_components/requirejs-plugins/lib/text',
+		//
 		'jquery':'bower_components/jquery/dist/jquery.min',
 		'backbone':'bower_components/backbone/backbone',
 		'underscore':'bower_components/underscore/underscore-min',
+		//
+		'settings':'app/models/settings',
 		//
 		'dropzone':'bower_components/dropzone/downloads/dropzone-amd-module.min',
 		'interact':'bower_components/interact/interact.min',

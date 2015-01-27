@@ -1,238 +1,44 @@
-define(['jquery','backbone','underscore',
-		'app/models/ImageModel', 'interact','dropzone'],
-	function($,Backbone,_,
-             ImageModel,
-             interact
-		){
+define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/ImageModel', 'app/views/WorkshopView'], function($,Backbone,_, settings, router, ImageModel, WorkshopView){
 
-	var BASE_URL = $('base').attr('href'),
-		FILE_URL = BASE_URL+"files/";
+	var imageModel,
+		workshop;
 
-	var imageModel = new ImageModel();
-
-	var router = new Backbone.Router({
-		routes:{
-			'paper/:id':'editPaper'
-		}
-		});
-
-	var workshop,
-		paper,
-		$canvas, canvas,
-		context;
 	//
-	var Workshop = Backbone.View.extend({
-		el:'#workshop',
-		events:{
-			'change [type=range]':'updateFormValues',
-			'click #sharer':'share'
-		},
-		initialize:function(){
+	// routes
+	//
+	router.on('route',Route);
 
-			// pattern singleton
-			workshop = this;
-			paper = workshop.$el.find('#paper');
-
-			imageModel.on('load:image', workshop.initializeEditor);
-			//
-			// routes
-			//
-			router.on('route:editPaper',this.editPaper);
-
-			$canvas = $('canvas'),
-			canvas = $canvas.get(0);
-
-			//
-			// Dropzone
-			//
-			$canvas.dropzone({
-				url: "post.php",
-				uploadMultiple: false,
-				acceptedFiles: "image/jpeg",
-				sending:function(){
-					workshop.waiting();
-				},
-				success: function (data, p) {
-					workshop.waiting('stop');
-					var json = p.success ? p : JSON.parse(p);
-					Backbone.history.navigate('paper/' + json.filename,{trigger:true});
-				}
-			});
-
-			//
-			//
-			//
-			workshop.$el.find('input').each(function(){
-				$(this).data('default-value',$(this).val());
-			});
-
-			//
-			//
-			//
-
-
-			workshop.$el.find('.draganddropimage').each(function() {
-
-				var image = this, $image = $(this);
-
-				image.style.webkitTransform =
-					image.style.transform =
-						'translate(' + $image.attr('data-x') + 'px, ' + $image.attr('data-y') + 'px)';
-				;
-				//
-				interact(image).draggable({
-					inertia: true,
-					onmove:function(event){
-
-						// keep the dragged position in the data-x/data-y attributes
-							x = (parseFloat($image.attr('data-x')) || 0) + event.dx,
-							y = (parseFloat($image.attr('data-y')) || 0) + event.dy;
-
-						// translate the element
-						image.style.webkitTransform =
-							image.style.transform =
-								'translate(' + x + 'px, ' + y + 'px)';
-
-						// update the posiion attributes
-						$image.attr('data-x', x);
-						$image.attr('data-y', y);
-					}
-				});
-			});
-
-			interact('#paper').dropzone({
-				// only accept elements matching this CSS selector
-				accept: '.draganddropimage',
-				// Require a 75% element overlap for a drop to be possible
-				overlap: 0.1,
-
-				// listen for drop related events:
-
-				ondropactivate: function (event) {
-					// add active dropzone feedback
-					$(event.relatedTarget).addClass('dragged');
-				},
-				ondragenter: function (event) {
-					$(event.relatedTarget).addClass('can-drop');
-				},
-				ondragleave: function (event) {
-					// remove the drop feedback style
-					$(event.relatedTarget).removeClass('can-drop');
-				},
-				ondrop: function (event) {//
-					var image = $(event.relatedTarget);
-					image.removeClass('dragged can-drop').addClass('dropped');
-					image.data('offset',{
-						left: parseInt(image.attr('data-x'))-paper.position().left,
-						top: parseInt(image.attr('data-y'))-paper.position().top
-					});
-					workshop.updateFormValues();
-				},
-				ondropdeactivate: function (event) {
-					// remove active dropzone feedback
-					$(event.relatedTarget).removeClass('dragged');
-				}
-			});
-
-
-
-			//
-			//
-			//
-			workshop.updateFormValues();
-
-			//
-			// Backbone History setup
-			//
-			Backbone.history.start({
-				root: BASE_URL,
-				pushState: true
-			});
-			router.navigate(Backbone.history.fragment, {trigger: true});
-
-		},
-		waiting:function(stop){
-			if(stop){
-				$('.waiting').remove();
-			}else{
-				workshop.$el.append($('<div class="waiting"></div>'));
-			}
-		},
-		//
-		// start editing an image
-		//
-		editPaper:function(id){
-			imageModel.set('image', FILE_URL + id + '.jpg');
-		},
-		updateFormValues:function(){
-			// update input range values
-			workshop.$el.find('input[type=range]').each(function(){
-				var range = $(this);
-				imageModel.set(range.attr('id'), range.val());
-			});
-			// update image drag & drop values
-			var dragAndDropImages = _([]);
-			workshop.$el.find('.draganddropimage.dropped').each(function () {
-				dragAndDropImages.push(this);
-			});
-			imageModel.set('dragAndDropImages', dragAndDropImages);
-			//
-			workshop.updateEditor();
-		},
-		updateEditor:function(){
-
-
-			if(_.isUndefined(context)) return;
-
-			imageModel.render(context);
-
-			var my_image_data = context.getImageData(0, 0, canvas.clientWidth, canvas.clientHeight);
-			var parameters = {
-				amount: imageModel.get('glitch-amount'),
-				seed: imageModel.get('glitch-seed'),
-				iterations: imageModel.get('glitch-iterations'),
-				quality: imageModel.get('glitch-quality')
-			};
-
-
-
-
-
-
-
-		},
-		initializeEditor:function(){
-			context = canvas.getContext('2d');
-			workshop.updateEditor();
-		},
-		resetInput:function(){
-			workshop.$el.find('input').each(function () {
-				$(this).val($(this).data('default-value'));
-			});
-		},
-		share:function(e){
-			e.preventDefault();
-			var data = canvas.toDataURL('image/jpeg');
-			workshop.waiting();
-			$.ajax({
-				url:'post.php',
-				method:'POST',
-				dataType: 'json',
-				data:{imageData:data},
-				success:function(r){
-					var json = r;
-					workshop.waiting('stop');
-					workshop.resetInput();
-					Backbone.history.navigate('paper/' + r.filename, {trigger: true});
-					workshop.updateFormValues();
-					window.prompt("partager cette url", window.location.href);
-				}
-			})
-		}
+	//
+	// Backbone History setup
+	//
+	Backbone.history.start({
+		root: settings.get('BASE_URL'),
+		pushState: true
 	});
+	router.navigate(Backbone.history.fragment, {trigger: true});
 
-	new Workshop();
 
-
+	function Route(r,o){
+		// page validation
+		switch(r){
+			case 'editPaper':
+			case 'newPaper':
+				// setup new workshop
+				if(!workshop){
+					var imageModel = new ImageModel();
+					workshop = new WorkshopView(imageModel,r);
+				}
+				break;
+		}
+		// page option
+		switch(r){
+			case 'editPaper':
+				workshop.editPaper(o[0]);
+				break;
+			case 'newPaper':
+				workshop.newPaper();
+				break;
+		}
+	}
 
 })

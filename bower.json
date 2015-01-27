@@ -31,6 +31,7 @@
     "glitch-canvas": "*",
     "normalize.css": "*",
     "interact": "~1.2.2",
-    "StackBlur": "~0.5.0"
+    "StackBlur": "~0.5.0",
+    "requirejs-plugins": "~1.0.3"
   }
 }

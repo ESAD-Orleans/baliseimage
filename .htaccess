@@ -4,5 +4,7 @@ RewriteBase /baliseimage/
 RewriteCond %{DOCUMENT_ROOT} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^paper/(.*)$ index.html [L]
+RewriteRule ^paper$ index.html [L]
+RewriteRule ^home(.*)$ index.html [L]
 #RewriteRule ^post$ post.php [L]
 </IfModule>
