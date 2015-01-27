@@ -1,10 +1,8 @@
 define(['jquery','backbone','underscore',
 		'app/models/ImageModel',
-		'app/models/EffectCollection',
-	'glitch-canvas', 'interact','StackBlur','dropzone'],
+	'glitch-canvas', 'interact','dropzone'],
 	function($,Backbone,_,
              ImageModel,
-             EffectCollection,
              glitch,
              interact
 		){
@@ -12,9 +10,7 @@ define(['jquery','backbone','underscore',
 	var BASE_URL = $('base').attr('href'),
 		FILE_URL = BASE_URL+"files/";
 
-	var image = new Image(),
-		imageModel = new ImageModel(),
-		effectCollection = new EffectCollection();
+	var imageModel = new ImageModel();
 
 	var router = new Backbone.Router({
 		routes:{
@@ -39,7 +35,7 @@ define(['jquery','backbone','underscore',
 			workshop = this;
 			paper = workshop.$el.find('#paper');
 
-
+			imageModel.on('load:image', workshop.initializeEditor);
 			//
 			// routes
 			//
@@ -168,11 +164,7 @@ define(['jquery','backbone','underscore',
 		// start editing an image
 		//
 		editPaper:function(id){
-			image = new Image();
-			$(image).on('load',function(){
-				workshop.initializeEditor();
-			});
-			image.src = FILE_URL+id+'.jpg';
+			imageModel.set('image', FILE_URL + id + '.jpg');
 		},
 		updateFormValues:function(){
 			workshop.$el.find('input[type=range]').each(function(){
@@ -183,10 +175,10 @@ define(['jquery','backbone','underscore',
 		},
 		updateEditor:function(){
 
-			if(_.isUndefined(context)) return;
-			context.drawImage(image, 0, 0);
 
-			stackBlurCanvasRGB('canvas', 0, 0, canvas.width, canvas.height, imageModel.get('blur-radius'));
+			if(_.isUndefined(context)) return;
+
+			imageModel.render(context);
 
 			workshop.$el.find('.draganddropimage.dropped').each(function () {
 				var offset = $(this).data('offset');
