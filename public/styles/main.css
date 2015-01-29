@@ -12,20 +12,16 @@ html, body {
       -ms-transform-origin: top left;
           transform-origin: top left;
   left: 50%;
-  top: 50%;
-  -webkit-transform: scale(0.5) translate(-640px, -400px);
-      -ms-transform: scale(0.5) translate(-640px, -400px);
-          transform: scale(0.5) translate(-640px, -400px); }
-  @media screen and (min-height: 620px) and (min-width: 1000px) {
-    #workshop {
-      -webkit-transform: scale(0.75) translate(-640px, -400px);
-          -ms-transform: scale(0.75) translate(-640px, -400px);
-              transform: scale(0.75) translate(-640px, -400px); } }
+  top: 50%
+  /*
+  transform: scale(.5) translate(-640px, -400px);
+  @media screen and (min-height: 620px) and (min-width:1000px) {
+    transform: scale(.75) translate(-640px, -400px);
+  }
   @media screen and (min-height: 800px) and (min-width: 1280px) {
-    #workshop {
-      -webkit-transform: translate(-640px, -400px);
-          -ms-transform: translate(-640px, -400px);
-              transform: translate(-640px, -400px); } }
+    transform: translate(-640px, -400px);
+  }
+  */ }
 
 #paper, h1 {
   position: absolute;

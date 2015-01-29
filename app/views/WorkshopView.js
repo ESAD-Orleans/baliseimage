@@ -12,12 +12,14 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 	return Backbone.View.extend({
 		events: {
 			'change [type=range]': 'updateFormValues',
-			'click #sharer': 'share'
+			'click #sharer': 'share',
+			'click h1':'backhome'
 		},
 		initialize: function (imageModel,route) {
 
 			this.imageModel = imageModel;
 			workshop = this;
+			$(window).on('resize', workshop.resize);
 			var tpl = $(_.template(template)());
 			$('body').append(tpl);
 			workshop.$el = tpl;
@@ -25,6 +27,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			// pattern singleton
 			paper = workshop.$el.find('#paper');
 
+			workshop.resize();
 			this.imageModel.on('load:image', workshop.initializeEditor);
 
 
@@ -70,12 +73,12 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 				;
 				//
 				interact(image).draggable({
-					inertia: true,
+					inertia: false,
 					onmove: function (event) {
 
 						// keep the dragged position in the data-x/data-y attributes
-						x = (parseFloat($image.attr('data-x')) || 0) + event.dx,
-							y = (parseFloat($image.attr('data-y')) || 0) + event.dy;
+						x = (parseFloat($image.attr('data-x')) || 0) + event.dx/workshop.scale,
+							y = (parseFloat($image.attr('data-y')) || 0) + event.dy/workshop.scale;
 
 						// translate the element
 						image.style.webkitTransform =
@@ -129,6 +132,27 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			workshop.updateFormValues();
 
 
+
+		},
+		backhome:function(){
+			workshop.clearContext();
+			router.navigate('',{trigger:true});
+			return false;
+		},
+		clearContext:function(){
+			context.clearRect(0,0,canvas.width,canvas.height);
+		},
+		resize:function(){
+			if(_.isUndefined(workshop.$el.parent().get(0))){
+				return $(window).off('resize',workshop.resize);
+			}
+			var el = workshop.$el.get(0),
+				scaleX = $(window).width()/$(el).width(),
+				scaleY = $(window).height()/$(el).height(),
+				scaleMin = scaleX< scaleY ? scaleX : scaleY;
+			workshop.scale = scaleMin>1 ? 1:scaleMin;
+			el.style.webkitTransform = el.style.transform =
+				'scale('+ workshop.scale +') translate(-640px, -400px)';
 
 		},
 		waiting: function (stop) {
