@@ -21,6 +21,12 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 	function Route(r,o){
 		// page validation
 		switch(r){
+			case 'home':
+				if(workshop){
+					workshop.remove();
+					workshop = null;
+				}
+				break;
 			case 'editPaper':
 			case 'newPaper':
 				// setup new workshop

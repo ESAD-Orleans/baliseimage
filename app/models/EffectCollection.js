@@ -5,8 +5,9 @@
 define(['underscore', 'jquery', 'backbone', 'app/models/EffectModel' ,
 	'app/models/effects/Blur',
 	'app/models/effects/DragAndDropImages',
-	'app/models/effects/Glitch'
-], function (_, $, Backbone, EffectModel, Blur, DragAndDropImages, Glitch) {
+	'app/models/effects/Glitch',
+	'app/models/effects/Noise'
+], function (_, $, Backbone, EffectModel, Blur, DragAndDropImages, Glitch, Noise) {
 	return Backbone.Collection.extend({
 		model:EffectModel,
 		initialize:function(a){
@@ -16,9 +17,10 @@ define(['underscore', 'jquery', 'backbone', 'app/models/EffectModel' ,
 		setup:function(){
 			console.log('setup EffectCollection');
 			this.add([
+				Glitch(),
 				Blur(),
 				DragAndDropImages(),
-				Glitch()
+				Noise()
 			]);
 		},
 		render:function(context,callback) {
@@ -33,8 +35,8 @@ define(['underscore', 'jquery', 'backbone', 'app/models/EffectModel' ,
 					console.log('- %s render %s', i,effect.get('type'));
 					effect.get('render')(c.imageModel,context,next);
 				}else if(callback){
-					callback();
 					console.groupEnd();
+					callback();
 				}else{
 					console.groupEnd();
 				}

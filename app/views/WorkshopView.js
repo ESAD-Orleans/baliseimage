@@ -28,7 +28,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			this.imageModel.on('load:image', workshop.initializeEditor);
 
 
-			$canvas = $('canvas'),
+			$canvas = $('#canvas'),
 				canvas = $canvas.get(0);
 
 			//
@@ -93,7 +93,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 				// only accept elements matching this CSS selector
 				accept: '.draganddropimage',
 				// Require a 75% element overlap for a drop to be possible
-				overlap: 0.1,
+				overlap: 0.75,
 
 				// listen for drop related events:
 
@@ -112,8 +112,8 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 					var image = $(event.relatedTarget);
 					image.removeClass('dragged can-drop').addClass('dropped');
 					image.data('offset', {
-						left: parseInt(image.attr('data-x')) - paper.position().left,
-						top: parseInt(image.attr('data-y')) - paper.position().top
+						left: parseInt(image.attr('data-x')) - (workshop.$el.width()-paper.width())/2,
+						top: parseInt(image.attr('data-y')) - (workshop.$el.height()-paper.height())/2
 					});
 					workshop.updateFormValues();
 				},
@@ -135,7 +135,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			if (stop) {
 				$('.waiting').remove();
 			} else {
-				workshop.$el.append($('<div class="waiting"></div>'));
+				$('body').append($('<div class="waiting"></div>'));
 			}
 		},
 		//
@@ -167,7 +167,10 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		updateEditor: function () {
 
 			if (_.isUndefined(context)) return;
-			workshop.imageModel.render(context);
+			workshop.waiting();
+			workshop.imageModel.render(context,function(){
+				workshop.waiting(true);
+			});
 
 		},
 		initializeEditor: function () {

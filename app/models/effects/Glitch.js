@@ -14,7 +14,10 @@ define(['app/models/EffectModel', 'glitch-canvas'], function (EffectModel,glitch
 				iterations: imageModel.get('glitch-iterations'),
 				quality: imageModel.get('glitch-quality')
 			};
-			console.log('apply glitch', parameters);
+			if(parameters.seed == 0 && parameters.amount > 0){
+				parameters.seed = 1;
+			}
+				console.log('apply glitch', parameters)
 			glitch(my_image_data, parameters, function (image_data) {
 				context.putImageData(image_data, 0, 0);
 				console.log('glitch apply successfull !');

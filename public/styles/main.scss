@@ -9,17 +9,30 @@ html,body{
 }
 
 #workshop{
-  background: #ccc;
+  //background-color : #ccc ;
+  //background :url(../images/layout.png) no-repeat center center;
+  background-size:cover;
+  transform-origin: top left;
+  left:50%;
+  top:50%;
+  transform: scale(.5) translate(-640px, -400px);
+  @media screen and (min-height: 620px) and (min-width:1000px) {
+    transform: scale(.75) translate(-640px, -400px);
+  }
+  @media screen and (min-height: 800px) and (min-width: 1280px) {
+    transform: translate(-640px, -400px);
+  }
+
 }
 #workshop, #paper{
-  border: solid 1px #ccc;
+  //border: solid 1px #ccc;
 }
-#workshop, #paper, h1{
+#paper, h1{
   position: absolute;
   margin: auto;
   box-sizing: border-box;
 }
-#workshop, h1{
+h1{
   top: 0;
   left: 0;
   right: 0;
@@ -47,7 +60,7 @@ h1{
   position: absolute;
   top:100px;
   left:430px;
-  background: #eee;
+  background: #fff;
 }
 
 form {
@@ -72,6 +85,10 @@ form {
   }
 }
 
+canvas{
+  position:absolute;
+}
+
 
 label {
   position:absolute;
@@ -90,13 +107,35 @@ label {
   }
   &.glitch{
     // modifie la position des slider des glitch
-    &.seed{left:210px; top:70px;}
-    &.amount{left:220px; top:100px;}
-    &.iterations{left:110px; top:200px;}
-    &.quality{left:200px; top:500px;}
+    left: 200px;
+    &.seed{
+      top: 105px;
+    }
+    &.amount{
+      top: 140px;
+    }
+    &.iterations{
+      left: 120px;
+      top: 276px;
+    }
+    &.quality{
+      top: 536px;
+    }
   }
   &.blur{
-    &.radius{left:1040px; top:540px}
+    &.radius{
+      left: 910px;
+      top: 535px;
+    }
+  }
+  &.noise{
+    left:1080px;
+    &.n1{
+      top:730px;
+    }
+    &.n2{
+      top:760px;
+    }
   }
 }
 
@@ -104,12 +143,13 @@ label {
   position:absolute;
   outline: none;
   z-index:1;
+  /*
   &:focus,&.dragged{
     outline:10px solid transparentize(red,0.5);
   }
   &.can-drop{
     outline:10px dotted transparentize(#0F0, 0.8);
-  }
+  }*/
   &.dropped{
     pointer-events: none;
     opacity: 0;
@@ -128,7 +168,8 @@ label {
   -webkit-appearance:none;
   color:transparent;
   background:url(../images/partager.png);
-  background-size:cover;
+  background-size:80%;
+  background-position: center;
   background-repeat:no-repeat;
   outline:none;
   border:none;
@@ -144,12 +185,14 @@ label {
 }
 
 .waiting{
-  position: fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  background: rgba(255,255,255,.8);
+    content:' ';
+    display:block;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    background: rgba(255, 255, 255,.9);
+    position:fixed;
 }
 
 //
@@ -163,7 +206,7 @@ input[type=range] {
   //
   &::-webkit-slider-runnable-track{
     width: 100%;
-    height: 20px;
+    height: 16px;
     background:none;
     border: none;
     border-radius: 10px;
@@ -171,7 +214,7 @@ input[type=range] {
   }
   &::-moz-range-track{
     width: 100%;
-    height: 20px;
+    height: 16px;
     background:transparent;
     border: none;
     border-radius: 10px;
@@ -180,8 +223,8 @@ input[type=range] {
   &::-webkit-slider-thumb{
     -webkit-appearance: none;
     border: none;
-    height: 20px;
-    width: 20px;
+    height: 16px;
+    width: 16px;
     border-radius: 50%;
     background: black;
     margin-top: 0;
@@ -189,8 +232,8 @@ input[type=range] {
   }
   &::-moz-range-thumb{
     border: none;
-    height: 20px;
-    width: 20px;
+    height: 16px;
+    width: 16px;
     border-radius: 50%;
     background: black;
     margin-top: 0;

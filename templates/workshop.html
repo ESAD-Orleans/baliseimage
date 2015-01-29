@@ -22,15 +22,22 @@
 			<input type="range" id="blur-radius" value="0" min="0" max="20"/>
 		</label>
 
-		<img class="draganddropimage" id="doodle5" data-x="1000" data-y="300" src="public/images/doodle5.png"/>
-		<img class="draganddropimage" id="doodle7" data-x="900" data-y="100" src="public/images/doodle7.png"/>
-		<img class="draganddropimage" id="doodle8" data-x="200" data-y="600" src="public/images/doodle8.png"/>
+		<label class="range noise n1">
+			<input type="range" id="noise-n1" value="0" min="0" max="255"/>
+		</label>
+
+		<img class="draganddropimage" id="doodle5" data-x="80" data-y="540" src="public/images/doodle5.png"/>
+		<img class="draganddropimage" id="doodle7" data-x="200" data-y="-10" src="public/images/doodle7.png"/>
+		<img class="draganddropimage" id="doodle8" data-x="926" data-y="616" src="public/images/doodle8.png"/>
+		<img class="draganddropimage" id="doodle10" data-x="1110" data-y="590" src="public/images/doodle10.png"/>
+		<img class="draganddropimage" id="doodle12" data-x="1130" data-y="265" src="public/images/doodle12.png"/>
 
 		<button id="sharer">share transformations</button>
 
 
 	</form>
 	<div id="paper">
+		<canvas id="buffer" width="420" height="594"></canvas>
 		<canvas id="canvas" width="420" height="594"></canvas>
 	</div>
 
