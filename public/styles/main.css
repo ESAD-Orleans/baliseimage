@@ -74,12 +74,13 @@ form {
   opacity: 0;
   font-size: 30px;
   width: 800px; }
-  .uploader p {
-    font-size: 14px;
-    line-height: 1.2em; }
   #workshop.new .uploader {
     visibility: visible;
     opacity: 1; }
+
+p, label {
+  font-size: 14px;
+  line-height: 1.5em; }
 
 canvas {
   position: absolute; }
@@ -155,6 +156,13 @@ label {
     background-image: url(../images/loading-bubbles.svg);
     background-size: 100px; }
 
+.sharing #sharer {
+  display: none; }
+.sharing .shareform {
+  display: block; }
+.sharing > form {
+  pointer-events: none; }
+
 .dropzone {
   width: 100%;
   height: 100%;
@@ -171,6 +179,53 @@ label {
   left: 0;
   background: rgba(255, 255, 255, 0.9);
   position: fixed; }
+
+.shareform {
+  width: 420px;
+  height: 594px;
+  position: absolute;
+  top: 100px;
+  left: 430px;
+  background: #ccc;
+  display: none;
+  padding: 20px;
+  box-sizing: border-box; }
+  .shareform a {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none; }
+  .shareform form {
+    width: 70%;
+    height: auto;
+    margin: auto;
+    position: relative;
+    padding: 0 0 20px; }
+  .shareform label {
+    position: static;
+    width: 100%;
+    margin: 0;
+    line-height: 30px;
+    float: none; }
+  .shareform input {
+    width: 100%;
+    display: block;
+    border: none;
+    height: 30px;
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #eee;
+    background: #000;
+    outline: none; }
+    .shareform input[type=text] {
+      text-indent: 10px; }
+      .shareform input[type=text]:focus {
+        background: #666; }
+    .shareform input[type=submit] {
+      background: none;
+      color: #000;
+      font-weight: bold; }
+      .shareform input[type=submit]:hover {
+        background: #fff; }
 
 input[type=range] {
   -webkit-appearance: none;

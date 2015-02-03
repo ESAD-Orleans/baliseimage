@@ -19,6 +19,7 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 
 
 	function Route(r,o){
+		console.log(r,o)
 		// page validation
 		switch(r){
 			case 'home':
@@ -27,6 +28,10 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 					workshop = null;
 				}
 				break;
+			case 'share' :
+				if(!o[0]){
+					break;
+				}
 			case 'editPaper':
 			case 'newPaper':
 				// setup new workshop
@@ -38,6 +43,10 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 		}
 		// page option
 		switch(r){
+			case 'share' :
+				if(! workshop){router.navigate('',{trigger:true}); break;}
+				workshop.sharePaper(o[0]);
+				break;
 			case 'editPaper':
 				workshop.editPaper(o[0]);
 				break;

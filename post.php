@@ -7,7 +7,14 @@ $response = array();
 $filename = '';
 $filepath = '';
 //
-if(isset($_POST['imageData'])){
+if(isset($_POST['model-id'])){
+
+	$response = $_POST;
+	$json = json_encode($_POST);
+	file_put_contents($output_dir.$_POST['model-id'].'.json', $json);
+	$success=true;
+
+}else if(isset($_POST['imageData'])){
 	// save base64 encode to file
 	$imageData = $_POST['imageData'];
 
@@ -18,6 +25,9 @@ if(isset($_POST['imageData'])){
 	$filepath = $output_dir.$filename.'.jpg';
 
 	file_put_contents($filepath, $imageData);
+
+	$response['filename'] = $filename;
+	$response['filepath'] = $filepath;
 
 	$success = true;
 }else if(isset($_FILES["file"]))
@@ -46,6 +56,7 @@ if(isset($_POST['imageData'])){
 		//move the uploaded file to uploads folder;
 		move_uploaded_file($_FILES["file"]["tmp_name"], $filepath);
 
+		$response['filename'] = $filename;
 
 		switch($filesize['mime']){
 			case "image/gif" :
@@ -78,8 +89,6 @@ if($error){
 	$response['error'] = $error;
 }else if($success){
 	$response['success'] = true;
-	$response['filename'] = $filename;
-	$response['filepath'] = $filepath;
 }
 echo json_encode($response);
 

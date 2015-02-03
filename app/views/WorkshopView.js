@@ -2,7 +2,7 @@
 // 2015
 // WorkshopView Backbone View
 //
-define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','settings', 'app/router', 'app/views/UploadView','interact'], function (_, $, Backbone, template,settings, router, UploadView, interact) {
+define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','settings', 'app/router', 'app/views/UploadView','app/views/ShareFormView','interact'], function (_, $, Backbone, template,settings, router, UploadView, ShareFormView, interact) {
 
 	var workshop,
 		paper,
@@ -153,6 +153,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		editPaper: function (id) {
 			//
 			workshop.$el.removeClass('new');
+			workshop.imageModel.set('model-id',id);
 			workshop.imageModel.set('image', settings.get('FILE_URL') + id + '.jpg');
 		},
 		newPaper:function(){
@@ -202,14 +203,19 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 				dataType: 'json',
 				data: {imageData: data},
 				success: function (r) {
-					var json = r;
 					workshop.waiting('stop');
-					workshop.resetInput();
-					Backbone.history.navigate('paper/' + r.filename, {trigger: true});
+					//workshop.resetInput();
+					router.navigate('sharePaper/'+ r.filename, {trigger: true});
 					workshop.updateFormValues();
-					window.prompt("partager cette url", window.location.href);
 				}
 			})
+		},
+		sharePaper: function(id){
+			if(id){
+				this.imageModel.set('sharing-id', id);
+				this.$el.addClass('sharing');
+				new ShareFormView(this.imageModel);
+			}
 		}
 	});
 });

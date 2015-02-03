@@ -6,5 +6,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^paper/(.*)$ index.html [L]
 RewriteRule ^paper$ index.html [L]
 RewriteRule ^home(.*)$ index.html [L]
+RewriteRule ^share(.*)$ index.html [L]
+RewriteRule ^gallery(.*)$ index.html [L]
 #RewriteRule ^post$ post.php [L]
 </IfModule>

@@ -87,14 +87,16 @@ form {
   opacity: 0;
   font-size:30px;
   width: 800px;
-  p{
-    font-size: 14px;
-    line-height: 1.2em;
-  }
+
   #workshop.new &{
     visibility: visible;
     opacity: 1;
   }
+}
+
+p, label {
+  font-size: 14px;
+  line-height: 1.5em;
 }
 
 canvas{
@@ -192,6 +194,18 @@ label {
   }
 }
 
+.sharing{
+  #sharer{
+    display: none;
+  }
+  .shareform{
+    display: block;
+  }
+  > form{
+    pointer-events: none;
+  }
+}
+
 
 .dropzone{
   width:100%;
@@ -210,6 +224,65 @@ label {
     left:0;
     background: rgba(255, 255, 255,.9);
     position:fixed;
+}
+
+.shareform{
+  width: 420px;
+  height: 594px;
+  position: absolute;
+  top: 100px;
+  left: 430px;
+  background: #ccc;
+  display:none;
+  padding:20px;
+  box-sizing: border-box;
+  p{
+  }
+  a{
+    color:#000;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  form{
+    width: 70%;
+    height:auto;
+    margin: auto;
+    position:relative;
+    padding: 0 0 20px;
+
+  }
+  label{
+    position:static;
+    width:100%;
+    margin: 0;
+    line-height:30px;
+    float: none;
+  }
+  input{
+    width: 100%;
+    display: block;
+    border: none;
+    height: 30px;
+    margin: 0 0 10px;
+    font-size:14px;
+    color:#eee;
+    background:#000;
+    outline:none;
+    &[type=text]{
+      text-indent:10px;
+      &:focus{
+        background:#666;
+      }
+    }
+    &[type=submit]{
+      background:none;
+      color:#000;
+      font-weight: bold;
+      &:hover{
+        background:#fff;
+      }
+    }
+  }
 }
 
 //
