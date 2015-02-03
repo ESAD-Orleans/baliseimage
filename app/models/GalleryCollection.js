@@ -10,8 +10,8 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 				return (2*Math.random()-1) * 100 *n;
 			}
 			this.f = 1;
-			this.tX = r(4);
-			this.tY = r(2);
+			this.tX = r(2);
+			this.tY = r(1.5);
 		},
 		image:function(){
 			return settings.get('FILE_URL')+this.get('id')+'.jpg';
@@ -21,7 +21,9 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 		},
 		style:function(){
 			var style = '', DIFF = 100, SPEED = .1, c = this.collection,
-				z = (-DIFF*this.index()+ SPEED*(Date.now()-c.start)%(DIFF* c.size()));
+				time = Date.now() - c.start,
+				timeFade = (1-1/(time/5000+1))*time,
+				z = (-DIFF*this.index()+ SPEED*(timeFade)%(DIFF* c.size()));
 			if(z>0){
 				z-= DIFF * c.size();
 			}
@@ -43,6 +45,9 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 					this.$div.addClass('focus');
 				}
 			});
+		},
+		enumerate: function (f) {
+			return _(this.attributes).each(f);
 		}
 	});
 

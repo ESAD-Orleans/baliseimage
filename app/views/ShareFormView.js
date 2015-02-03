@@ -12,7 +12,6 @@ define(['underscore', 'jquery', 'backbone','app/router','text!templates/sharefor
 		initialize:function(imageModel){
 			this.imageModel = imageModel;
 			this.render();
-			this.saveModel();
 		},
 		render:function(){
 			this.$el.html(_.template(
@@ -23,26 +22,9 @@ define(['underscore', 'jquery', 'backbone','app/router','text!templates/sharefor
 			router.navigate($(e.currentTarget).attr('href'),{trigger:true});
 		},
 		saveModel:function(){
-			var view=this,datas = {updated:Date.now()};
-
-			_(this.imageModel.attributes).each(function(val,id){
-				switch(typeof(val)){
-					case 'string':
-					case 'number':
-					datas[id] = val;
-						break;
-				}
-			})
-
-			$.ajax({
-				url: 'post.php',
-				method: 'POST',
-				dataType: 'json',
-				data: datas,
-				success: function (r) {
-					//
-					view.render();
-				}
+			var view = this;
+			this.imageModel.saveModel(function(){
+				view.render();
 			})
 		},
 		submitForm:function(e){

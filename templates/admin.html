@@ -1,0 +1,15 @@
+<div class="admin files">
+	<% each(function(file){ %>
+	<div class="file">
+		<div class="title"><img class="thumb" src="<%= file.image() %>">
+			<%= file.get('model-id') %></div>
+		<div class="options">
+			<div class="details">
+				<% file.enumerate(function(a,b){ console.log(a,b) %>
+				<div> <%= b %> :  <%= a %></div>
+				<% }) %>
+			</div>
+		</div>
+	</div>
+	<% }) %>
+</div>

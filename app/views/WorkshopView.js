@@ -148,9 +148,13 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		//
 		editPaper: function (id) {
 			//
+			workshop.imageModel.url = settings.get('FILE_URL')+id+'.json';
+			workshop.imageModel.on('sync',this.syncPaper,this);
+			workshop.imageModel.fetch();
+		},
+		syncPaper:function(){
+			console.log('sync');
 			workshop.$el.find('#workshop').removeClass('new');
-			workshop.imageModel.set('model-id',id);
-			workshop.imageModel.set('image', settings.get('FILE_URL') + id + '.jpg');
 		},
 		newPaper:function(){
 			workshop.$el.find('#workshop').addClass('new');
@@ -194,18 +198,12 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			e.preventDefault();
 			var data = canvas.toDataURL('image/jpeg');
 			workshop.waiting();
-			$.ajax({
-				url: 'post.php',
-				method: 'POST',
-				dataType: 'json',
-				data: {imageData: data},
-				success: function (r) {
-					workshop.waiting('stop');
-					//workshop.resetInput();
-					router.navigate('sharePaper/'+ r.filename, {trigger: true});
-					workshop.updateFormValues();
-				}
-			})
+			this.imageModel.saveModel(function(r){
+				workshop.waiting('stop');
+				//workshop.resetInput();
+				router.navigate('sharePaper/' + r.id, {trigger: true});
+				workshop.updateFormValues();
+			},data);
 		},
 		sharePaper: function(id){
 			if(id){

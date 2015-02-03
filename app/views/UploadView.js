@@ -32,7 +32,7 @@ define(['underscore', 'jquery', 'backbone','text!templates/upload.html', 'dropzo
 				success: function (data, p) {
 					//workshop.waiting('stop');
 					var json = p.success ? p : JSON.parse(p);
-					Backbone.history.navigate('paper/' + json.filename, {trigger: true});
+					Backbone.history.navigate('paper/' + json.id, {trigger: true});
 					sharer.removeClass('load');
 				}
 			});

@@ -6,15 +6,29 @@ $success = false;
 $response = array();
 $filename = '';
 $filepath = '';
+$from = null;
 //
-if(isset($_POST['model-id'])){
+function RegisterNewJSON($i){
 
-	$response = $_POST;
-	$json = json_encode($_POST);
-	file_put_contents($output_dir.$_POST['model-id'].'.json', $json);
-	$success=true;
+	global $output_dir, $filename, $filepath, $from;
 
-}else if(isset($_POST['imageData'])){
+	$json = array(
+		'id' => $filename,
+		'model-id' => $filename,
+		'image' => $filepath,
+		'date' => time(),
+		'iteration'=> $i,
+		'from'=> $from,
+		'gallery' => $i>0
+	);
+
+	file_put_contents($output_dir . "$filename.json", json_encode($json));
+
+	return $json;
+
+}
+//
+if(isset($_POST['imageData'])){
 	// save base64 encode to file
 	$imageData = $_POST['imageData'];
 
@@ -26,12 +40,24 @@ if(isset($_POST['model-id'])){
 
 	file_put_contents($filepath, $imageData);
 
-	$response['filename'] = $filename;
-	$response['filepath'] = $filepath;
+	//$response['filename'] = $filename;
+	//$response['filepath'] = $filepath;
+
+	$from = $_POST['id'];
+	$response = RegisterNewJSON(intval($_POST['iteration'])+1);
+
 
 	$success = true;
-}else if(isset($_FILES["file"]))
-{
+}elseif(isset($_POST['model-id'])) {
+
+	$response = $_POST;
+	unset($response->imageData);
+	$json = json_encode($response);
+
+	file_put_contents($output_dir . $_POST['model-id'] . '.json', $json);
+	$success = true;
+
+}else if(isset($_FILES["file"])){
     //Filter the file types , if you want.
     if ($_FILES["file"]["error"] > 0)
     {
@@ -66,6 +92,7 @@ if(isset($_POST['model-id'])){
         	$response['mimetype'] = $filesize['mime'];
         	$response['width'] = $filesize[0];
         	$response['height'] = $filesize[1];
+			$response = RegisterNewJSON(0);
 
         	$success = true;
         	break;

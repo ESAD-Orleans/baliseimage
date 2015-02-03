@@ -7,6 +7,7 @@ define(['backbone'],function(Backbone){
 			'sharePaper/:id': 'share',
 			'share':'share',
 			'gallery':'gallery',
+			'admin':'admin',
 			'*path': 'redirect'
 		},
 		redirect:function(r){

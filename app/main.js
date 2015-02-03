@@ -1,4 +1,4 @@
-define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/ImageModel', 'app/views/WorkshopView', 'app/views/GalleryView'], function($,Backbone,_, settings, router, ImageModel, WorkshopView, GalleryView){
+define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/ImageModel', 'app/views/WorkshopView', 'app/views/GalleryView', 'app/views/AdminView'], function($,Backbone,_, settings, router, ImageModel, WorkshopView, GalleryView, AdminView){
 
 	var imageModel,
 		currentPage;
@@ -24,6 +24,9 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 			$('body').append($('<div id="site"></div>'))
 		}
 		switch(viewType) {
+			case 'admin' :
+				currentPage = new AdminView();
+				break;
 			case 'workshop' :
 				imageModel = new ImageModel();
 				currentPage = new WorkshopView(imageModel);
@@ -32,12 +35,16 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 				currentPage = new GalleryView();
 				break;
 		}
+		currentPage.$el.addClass('page-'+viewType);
 	}
 
 	function Route(r,o){
 		//console.log(r,o)
 		// page validation
 		switch(r){
+			case 'admin':
+				DisplayPage('admin');
+				break;
 			case 'gallery':
 				DisplayPage('gallery');
 				break;

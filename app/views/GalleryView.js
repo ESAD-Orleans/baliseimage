@@ -63,5 +63,6 @@ define(['underscore', 'jquery', 'backbone','app/router','app/models/GalleryColle
 			router.navigate('paper/'+id,{trigger:true});
 			return false;
 		}
+
 	});
 });
