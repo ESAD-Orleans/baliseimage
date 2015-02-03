@@ -18,6 +18,7 @@ require.config({
 		'StackBlur':'bower_components/StackBlur/StackBlur',
 		'glitch-canvas':'bower_components/glitch-canvas/dist/glitch-canvas.min',
 		'seedrandom':'bower_components/seedrandom/seedrandom',
+		'requestAnimationFrame':'bower_components/requestAnimationFrame/app/requestAnimationFrame',
 		'perlin':'lib/perlin'
 		//
 	},

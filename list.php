@@ -15,9 +15,9 @@ foreach ($files as $file) {
 		$json = __DIR__.'/'. $output_dir . $id . '.json';
 		$json_exist = file_exists($json);
 		if(!$json_exist){
-			array_push($readyToDraw,$id);
+			array_push($readyToDraw,array('id'=>$id));
 		}else{
-			array_push($readyToBeSend, $id);
+			array_push($readyToBeSend, array('id' => $id));
 		}
 	}
 }

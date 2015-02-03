@@ -5,8 +5,15 @@
 define(['underscore', 'jquery', 'backbone','text!templates/upload.html', 'dropzone'], function (_, $, Backbone, template) {
 	return Backbone.View.extend({
 		el:'.uploader',
+		events:{
+			'click a':'link'
+		},
 		initialize:function(){
 			this.render();
+		},
+		link:function(e){
+			Backbone.history.navigate($(e.currentTarget).attr('href'),{trigger:true})
+			return false;
 		},
 		render:function(){
 			this.$el.html(_.template(template)());

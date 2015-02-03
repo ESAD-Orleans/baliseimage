@@ -7,6 +7,11 @@ html,body{
   overflow: hidden;
   background: #eee;
 }
+#site{
+  width:100%;
+  height:100%;
+  position: absolute;
+}
 
 #workshop{
   //background-color : #ccc ;
@@ -50,7 +55,7 @@ h1{
   }
 }
 
-#workshop{
+#workshop, .gallery{
   position: absolute;
   width:1280px;
   height:800px;
@@ -222,8 +227,14 @@ label {
     height:100%;
     top:0;
     left:0;
-    background: rgba(255, 255, 255,.9);
+    //background: rgba(255, 255, 255,.9);
     position:fixed;
+}
+
+a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .shareform{
@@ -238,11 +249,7 @@ label {
   box-sizing: border-box;
   p{
   }
-  a{
-    color:#000;
-    font-weight: bold;
-    text-decoration: none;
-  }
+
   form{
     width: 70%;
     height:auto;
@@ -343,4 +350,127 @@ input[type=range] {
     outline-offset: -1px;
   }
 
+}
+
+.gallery{
+  margin:auto;
+  left:50%;
+  top:50%;
+  h1{
+    z-index: 1;
+  }
+  .space,.group{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  perspective: 400px;
+  .space,.group{
+    transform-style: preserve-3d;
+  }
+}
+
+.space {
+  position: absolute;
+  .item {
+    position: absolute;
+    width: 420px;
+    height: 594px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    animation: fadein 1s both;
+    -webkit-animation: fadein 1s both;
+
+    animation-delay: 2s;
+    -webkit-animation-delay: 2s;
+    transition: opacity .5s;
+    //
+    &.run{
+      animation:none;
+      -webkit-animation:none;
+    }
+    //
+    @for $i from 0 through 20{
+      &.item-#{$i}{
+        animation-delay: $i*0.1s;
+        -webkit-animation-delay: $i*0.1s;
+      }
+    }
+  }
+  img{
+    display: block;
+  }
+  .use{
+
+    font-size:24px;
+    border: none;
+    appearance: none;
+    -webkit-appearance:none;
+    display: block;
+    position: absolute;
+    width: 80%;
+    padding: 30px;
+    height:90px;
+    line-height: 30px;
+    box-sizing: border-box;
+    bottom:0;
+    top:0;
+    right:0;
+    left:0;
+    margin:auto;
+    background: transparentize(#fff, .3);
+    visibility: hidden;
+    opacity: 0;
+    transition:.3s;
+    text-align: center;
+    outline: none;
+    &:hover{
+      background: transparentize(#fff, .1);
+    }
+  }
+  .item.focus{
+    .use{
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+@-webkit-keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  0% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

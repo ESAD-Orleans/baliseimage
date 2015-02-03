@@ -1,7 +1,7 @@
-define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/ImageModel', 'app/views/WorkshopView'], function($,Backbone,_, settings, router, ImageModel, WorkshopView){
+define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/ImageModel', 'app/views/WorkshopView', 'app/views/GalleryView'], function($,Backbone,_, settings, router, ImageModel, WorkshopView, GalleryView){
 
 	var imageModel,
-		workshop;
+		currentPage;
 
 	//
 	// routes
@@ -17,16 +17,29 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 	});
 	router.navigate(Backbone.history.fragment, {trigger: true});
 
+	function DisplayPage(viewType){
+		if(currentPage){
+			if(currentPage.type == viewType){ return; }
+			currentPage.remove();
+			$('body').append($('<div id="site"></div>'))
+		}
+		switch(viewType) {
+			case 'workshop' :
+				imageModel = new ImageModel();
+				currentPage = new WorkshopView(imageModel);
+				break;
+			case 'gallery' :
+				currentPage = new GalleryView();
+				break;
+		}
+	}
 
 	function Route(r,o){
-		console.log(r,o)
+		//console.log(r,o)
 		// page validation
 		switch(r){
-			case 'home':
-				if(workshop){
-					workshop.remove();
-					workshop = null;
-				}
+			case 'gallery':
+				DisplayPage('gallery');
 				break;
 			case 'share' :
 				if(!o[0]){
@@ -35,23 +48,23 @@ define(['jquery','backbone','underscore','settings', 'app/router', 'app/models/I
 			case 'editPaper':
 			case 'newPaper':
 				// setup new workshop
-				if(!workshop){
-					var imageModel = new ImageModel();
-					workshop = new WorkshopView(imageModel,r);
-				}
+				DisplayPage('workshop');
+
 				break;
 		}
 		// page option
 		switch(r){
 			case 'share' :
-				if(! workshop){router.navigate('',{trigger:true}); break;}
-				workshop.sharePaper(o[0]);
+				if(!currentPage){router.navigate('',{trigger:true}); break;}
+				currentPage.sharePaper(o[0]);
 				break;
 			case 'editPaper':
-				workshop.editPaper(o[0]);
+				currentPage.editPaper(o[0]);
 				break;
 			case 'newPaper':
-				workshop.newPaper();
+				currentPage.newPaper();
+				break;
+			case 'gallery':
 				break;
 		}
 	}

@@ -10,31 +10,30 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		context;
 
 	return Backbone.View.extend({
+		el:'#site',
 		events: {
 			'change [type=range]': 'updateFormValues',
 			'click #sharer': 'share',
 			'click h1':'backhome'
 		},
-		initialize: function (imageModel,route) {
-
+		type:'workshop',
+		initialize: function (imageModel) {
 			this.imageModel = imageModel;
 			workshop = this;
 			$(window).on('resize', workshop.resize);
-			var tpl = $(_.template(template)());
-			$('body').append(tpl);
-			workshop.$el = tpl;
+			this.render();
+			this.imageModel.on('load:image', workshop.initializeEditor, this);
+		},
+		render:function(){
+			this.$el.html(_.template(template)());
 
 			// pattern singleton
 			paper = workshop.$el.find('#paper');
 
 			workshop.resize();
-			this.imageModel.on('load:image', workshop.initializeEditor);
 
-
-			$canvas = $('#canvas'),
+			$canvas = workshop.$el.find('#canvas'),
 				canvas = $canvas.get(0);
-
-
 
 			//
 			//
@@ -62,8 +61,8 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 					onmove: function (event) {
 
 						// keep the dragged position in the data-x/data-y attributes
-						x = (parseFloat($image.attr('data-x')) || 0) + event.dx/workshop.scale,
-							y = (parseFloat($image.attr('data-y')) || 0) + event.dy/workshop.scale;
+						x = (parseFloat($image.attr('data-x')) || 0) + event.dx / workshop.scale,
+							y = (parseFloat($image.attr('data-y')) || 0) + event.dy / workshop.scale;
 
 						// translate the element
 						image.style.webkitTransform =
@@ -100,8 +99,8 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 					var image = $(event.relatedTarget);
 					image.removeClass('dragged can-drop').addClass('dropped');
 					image.data('offset', {
-						left: parseInt(image.attr('data-x')) - (workshop.$el.width()-paper.width())/2,
-						top: parseInt(image.attr('data-y')) - (workshop.$el.height()-paper.height())/2
+						left: parseInt(image.attr('data-x')) - (workshop.$el.find('#workshop').width() - paper.width()) / 2,
+						top: parseInt(image.attr('data-y')) - (workshop.$el.find('#workshop').height() - paper.height()) / 2
 					});
 					workshop.updateFormValues();
 				},
@@ -115,9 +114,6 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			//
 			//
 			workshop.updateFormValues();
-
-
-
 		},
 		backhome:function(){
 			workshop.clearContext();
@@ -128,10 +124,10 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			context.clearRect(0,0,canvas.width,canvas.height);
 		},
 		resize:function(){
-			if(_.isUndefined(workshop.$el.parent().get(0))){
+			if(_.isUndefined(workshop.$el.find('#workshop').parent().get(0))){
 				return $(window).off('resize',workshop.resize);
 			}
-			var el = workshop.$el.get(0),
+			var el = workshop.$el.find('#workshop').get(0),
 				scaleX = $(window).width()/$(el).width(),
 				scaleY = $(window).height()/$(el).height(),
 				scaleMin = scaleX< scaleY ? scaleX : scaleY;
@@ -152,12 +148,12 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		//
 		editPaper: function (id) {
 			//
-			workshop.$el.removeClass('new');
+			workshop.$el.find('#workshop').removeClass('new');
 			workshop.imageModel.set('model-id',id);
 			workshop.imageModel.set('image', settings.get('FILE_URL') + id + '.jpg');
 		},
 		newPaper:function(){
-			workshop.$el.addClass('new');
+			workshop.$el.find('#workshop').addClass('new');
 			new UploadView();
 		},
 		updateFormValues: function () {
@@ -176,7 +172,6 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			workshop.updateEditor();
 		},
 		updateEditor: function () {
-
 			if (_.isUndefined(context)) return;
 			workshop.waiting();
 			workshop.imageModel.render(context,function(){
@@ -185,8 +180,10 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 
 		},
 		initializeEditor: function () {
-			context = canvas.getContext('2d');
-			workshop.updateEditor();
+			if(canvas){
+				context = canvas.getContext('2d');
+				workshop.updateEditor();
+			}
 		},
 		resetInput: function () {
 			workshop.$el.find('input').each(function () {
@@ -213,7 +210,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		sharePaper: function(id){
 			if(id){
 				this.imageModel.set('sharing-id', id);
-				this.$el.addClass('sharing');
+				this.$el.find('#workshop').addClass('sharing');
 				new ShareFormView(this.imageModel);
 			}
 		}

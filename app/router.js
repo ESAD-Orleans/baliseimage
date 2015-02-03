@@ -6,6 +6,7 @@ define(['backbone'],function(Backbone){
 			'paper/:id': 'editPaper',
 			'sharePaper/:id': 'share',
 			'share':'share',
+			'gallery':'gallery',
 			'*path': 'redirect'
 		},
 		redirect:function(r){

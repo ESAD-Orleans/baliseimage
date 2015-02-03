@@ -11,7 +11,6 @@ define(['underscore', 'jquery', 'backbone','app/router','text!templates/sharefor
 		},
 		initialize:function(imageModel){
 			this.imageModel = imageModel;
-			console.log('New ShareFormView %s', imageModel.get('sharing-id'));
 			this.render();
 			this.saveModel();
 		},
@@ -24,7 +23,7 @@ define(['underscore', 'jquery', 'backbone','app/router','text!templates/sharefor
 			router.navigate($(e.currentTarget).attr('href'),{trigger:true});
 		},
 		saveModel:function(){
-			var view=this,datas = {};
+			var view=this,datas = {updated:Date.now()};
 
 			_(this.imageModel.attributes).each(function(val,id){
 				switch(typeof(val)){
