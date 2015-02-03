@@ -43,6 +43,9 @@ define(['underscore', 'jquery', 'backbone','app/models/EffectCollection'], funct
 				console.log('image data saved');
 				m.set('imageData', imageData)
 			}
+			_(m.attributes).each(function (v, n) {
+				console.log('save %s : %s', n, v);
+			});
 			$.ajax({
 				url: 'post.php',
 				method: 'POST',

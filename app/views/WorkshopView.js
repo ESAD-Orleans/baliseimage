@@ -155,6 +155,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		syncPaper:function(){
 			console.log('sync');
 			workshop.$el.find('#workshop').removeClass('new');
+			workshop.resetInput();
 		},
 		newPaper:function(){
 			workshop.$el.find('#workshop').addClass('new');
@@ -193,6 +194,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			workshop.$el.find('input').each(function () {
 				$(this).val($(this).data('default-value'));
 			});
+			workshop.updateFormValues();
 		},
 		share: function (e) {
 			e.preventDefault();
@@ -200,9 +202,8 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			workshop.waiting();
 			this.imageModel.saveModel(function(r){
 				workshop.waiting('stop');
-				//workshop.resetInput();
 				router.navigate('sharePaper/' + r.id, {trigger: true});
-				workshop.updateFormValues();
+				workshop.resetInput();
 			},data);
 		},
 		sharePaper: function(id){

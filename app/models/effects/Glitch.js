@@ -7,6 +7,8 @@ define(['app/models/EffectModel', 'glitch-canvas'], function (EffectModel,glitch
 		type:'glitch',
 		render:function(imageModel,context,next){
 			//
+			if(context.canvas.clientHeight* context.canvas.clientWidth == 0){return next()}
+			//
 			var my_image_data = context.getImageData(0, 0, context.canvas.clientWidth, context.canvas.clientHeight);
 			var parameters = {
 				amount: imageModel.get('glitch-amount'),

@@ -19,7 +19,7 @@ function RegisterNewJSON($i){
 		'date' => time(),
 		'iteration'=> $i,
 		'from'=> $from,
-		'gallery' => $i>0
+		'gallery' => $i>0 ? 1 : 0
 	);
 
 	file_put_contents($output_dir . "$filename.json", json_encode($json));
@@ -44,6 +44,14 @@ if(isset($_POST['imageData'])){
 	//$response['filepath'] = $filepath;
 
 	$from = $_POST['id'];
+	//
+	if(isset($from)){
+		$fromPath = $output_dir . "$from.json";
+		$jsonFrom = json_decode(file_get_contents($fromPath));
+		$jsonFrom->gallery = 0;
+		file_put_contents($fromPath, json_encode($jsonFrom));
+	}
+	//
 	$response = RegisterNewJSON(intval($_POST['iteration'])+1);
 
 
@@ -55,6 +63,7 @@ if(isset($_POST['imageData'])){
 	$json = json_encode($response);
 
 	file_put_contents($output_dir . $_POST['model-id'] . '.json', $json);
+	die($json);
 	$success = true;
 
 }else if(isset($_FILES["file"])){

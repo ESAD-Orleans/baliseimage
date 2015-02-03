@@ -6,7 +6,7 @@
 		<% collection.each(function(item,i){ %>
 		<div class="item item-<%= i %>" id="img-<%= item.get('id') %>" style="<%= item.style() %>">
 			<img class="image" src="<%= item.image() %>" width="420" height="594"/>
-			<button class="use">utiliser cette image</button>
+			<button class="use">utiliser cette image<br/><%= item.get('id') %> <br/><%= item.get('iteration') %> : <%= item.get('gallery') %></button>
 		</div>
 		<% }) %>
 		</div>

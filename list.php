@@ -43,7 +43,7 @@ foreach ($files as $file) {
 		}
 		array_push($readyToBeSend, $jsonDecode);
 		$i = intval($jsonDecode->iteration);
-		if($i<=5 && $i>0){
+		if($i<=5 && ($jsonDecode->gallery =="1")){
 			array_push($readyToDraw, $jsonDecode);
 		}
 	}
