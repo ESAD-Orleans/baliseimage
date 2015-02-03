@@ -2,7 +2,7 @@
 // 2015
 // WorkshopView Backbone View
 //
-define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','settings', 'app/router', 'interact', 'dropzone'], function (_, $, Backbone, template,settings, router, interact) {
+define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','settings', 'app/router', 'app/views/UploadView','interact'], function (_, $, Backbone, template,settings, router, UploadView, interact) {
 
 	var workshop,
 		paper,
@@ -34,22 +34,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 			$canvas = $('#canvas'),
 				canvas = $canvas.get(0);
 
-			//
-			// Dropzone
-			//
-			$canvas.dropzone({
-				url: "post.php",
-				uploadMultiple: false,
-				acceptedFiles: "image/jpeg",
-				sending: function () {
-					workshop.waiting();
-				},
-				success: function (data, p) {
-					workshop.waiting('stop');
-					var json = p.success ? p : JSON.parse(p);
-					Backbone.history.navigate('paper/' + json.filename, {trigger: true});
-				}
-			});
+
 
 			//
 			//
@@ -172,6 +157,7 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 		},
 		newPaper:function(){
 			workshop.$el.addClass('new');
+			new UploadView();
 		},
 		updateFormValues: function () {
 			// update input range values

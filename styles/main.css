@@ -53,6 +53,8 @@ h1 {
   top: 100px;
   left: 430px;
   background: #fff; }
+  .new #paper {
+    display: none; }
 
 form {
   width: 100%;
@@ -61,15 +63,21 @@ form {
     visibility: hidden;
     opacity: 0; }
 
-.upload-image-help {
+.uploader {
   position: absolute;
-  right: 50%;
-  top: 50%;
+  margin: auto;
+  top: 120px;
+  left: 0;
+  right: 0;
+  padding: 0 0 120px;
   visibility: hidden;
   opacity: 0;
   font-size: 30px;
-  pointer-events: none; }
-  #workshop.new .upload-image-help {
+  width: 800px; }
+  .uploader p {
+    font-size: 14px;
+    line-height: 1.2em; }
+  #workshop.new .uploader {
     visibility: visible;
     opacity: 1; }
 
@@ -125,7 +133,7 @@ label {
     pointer-events: none;
     opacity: 0; }
 
-#sharer {
+#sharer, .sharer {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -142,6 +150,10 @@ label {
   background-repeat: no-repeat;
   outline: none;
   border: none; }
+  #sharer.load, .sharer.load {
+    pointer-events: none;
+    background-image: url(../images/loading-bubbles.svg);
+    background-size: 100px; }
 
 .dropzone {
   width: 100%;
