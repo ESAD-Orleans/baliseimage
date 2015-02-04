@@ -15,7 +15,7 @@ define(['underscore', 'jquery', 'backbone', 'app/models/GalleryCollection','text
 			this.collection.on('sync',this.render,this);
 			this.collection.on('error',this.error,this);
 			this.collection.comparator = 'date';
-			this.testPassword(true);
+			this.testPassword();
 		},
 		testPassword:function(force){
 			if(!force){
