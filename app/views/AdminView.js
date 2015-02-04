@@ -14,6 +14,7 @@ define(['underscore', 'jquery', 'backbone', 'app/models/GalleryCollection','text
 			this.collection = new GalleryCollection();
 			this.collection.on('sync',this.render,this);
 			this.collection.on('error',this.error,this);
+			this.collection.comparator = 'date';
 			this.testPassword(true);
 		},
 		testPassword:function(force){
@@ -39,7 +40,7 @@ define(['underscore', 'jquery', 'backbone', 'app/models/GalleryCollection','text
 		},
 		toggleAccordion:function(e){
 			this.$el.find('.file .options').stop().slideUp();
-			$('+ .options', e.currentTarget).stop().slideDown();
+			$('+ .options', e.currentTarget).stop().slideToggle();
 		}
 	});
 });

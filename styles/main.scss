@@ -268,7 +268,7 @@ a {
     line-height:30px;
     float: none;
   }
-  input{
+  input,button{
     width: 100%;
     display: block;
     border: none;
@@ -283,16 +283,17 @@ a {
       &:focus{
         background:#666;
       }
-    }
-    &[type=submit]{
-      background:none;
-      color:#000;
-      font-weight: bold;
-      &:hover{
-        background:#fff;
+      &[type=submit] {
+        background: none;
+        color: #000;
+        font-weight: bold;
+        &:hover {
+          background: #fff;
+        }
       }
     }
   }
+
 }
 
 //
@@ -503,6 +504,14 @@ input[type=range] {
       display: none;
       line-height: 20px;
       padding: 20px;
+      &:after{
+        content:' ';
+        display: block;
+        clear: both;
+      }
+      img.fullsize{
+        float: right;
+      }
     }
   }
 }

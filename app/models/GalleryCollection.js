@@ -36,6 +36,10 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 			//
 			return style;
 		},
+		formatTitle:function(){
+			var date = new Date(this.get('date')*1000);
+			return date;
+		},
 		focus:function(){
 			if (this.f == 0) {
 				this.$div.removeClass('focus');

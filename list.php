@@ -6,17 +6,18 @@ $output_dir = "files/";
 $files = scandir($output_dir);
 $only_jpg = "(([abcdef0-9]{40}).jpg)";
 
-function RegisterNewJSON($id)
+function RegisterNewJSON($id,$time)
 {
 
 	global $output_dir;
 
 	$json = array(
+		'from'=>null,
 		'id' => $id,
-		'model-id' => $id,
 		'image' => $output_dir . "$id.jpg",
-		'date' => time(),
-		'iteration' => 0
+		'date' => $time,
+		'iteration' => 1,
+		'gallery' => 1
 	);
 	file_put_contents($output_dir . "$id.json", json_encode($json));
 
@@ -35,7 +36,7 @@ foreach ($files as $file) {
 		$json_exist = file_exists($json);
 		//
 		if(!$json_exist){
-			$jsonDecode = RegisterNewJSON($id);
+			$jsonDecode = RegisterNewJSON($id, filemtime($output_dir. $jpeg));
 		}else{
 			$jsonString = file_get_contents($json);
 			$jsonDecode = json_decode($jsonString);

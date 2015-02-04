@@ -14,7 +14,6 @@ function RegisterNewJSON($i){
 
 	$json = array(
 		'id' => $filename,
-		'model-id' => $filename,
 		'image' => $filepath,
 		'date' => time(),
 		'iteration'=> $i,
@@ -56,14 +55,37 @@ if(isset($_POST['imageData'])){
 
 
 	$success = true;
-}elseif(isset($_POST['model-id'])) {
+}elseif(isset($_POST['from'])) {
+
+
+	$from = $_POST['from'];
+
+	if (isset($from)) {
+		$fromPath = $output_dir . "$from.json";
+		$jsonFrom = json_decode(file_get_contents($fromPath));
+		$jsonFrom->gallery = 0;
+		file_put_contents($fromPath, json_encode($jsonFrom));
+	}
+
+	$id = $_POST['id'];
+	$username = $_POST['username'];
+	$address = $_POST['address'];
+	$email = $_POST['email'];
+
+	if(isset($username) && isset($address) && isset($email)){
+		$currentPath = $output_dir . "$id.json";
+		$jsonCurrent = json_decode(file_get_contents($currentPath));
+		$jsonCurrent->username = $username;
+		$jsonCurrent->address = $address;
+		$jsonCurrent->email = $email;
+		file_put_contents($currentPath, json_encode($jsonCurrent));
+	}
+
 
 	$response = $_POST;
 	unset($response->imageData);
 	$json = json_encode($response);
 
-	file_put_contents($output_dir . $_POST['model-id'] . '.json', $json);
-	die($json);
 	$success = true;
 
 }else if(isset($_FILES["file"])){

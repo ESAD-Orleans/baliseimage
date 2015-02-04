@@ -503,6 +503,14 @@ input[type=range] {
       display: none;
       line-height: 20px;
       padding: 20px;
+      &:after{
+        content:' ';
+        display: block;
+        clear: both;
+      }
+      img.fullsize{
+        float: right;
+      }
     }
   }
 }

@@ -437,5 +437,11 @@ input[type=range] {
       display: none;
       line-height: 20px;
       padding: 20px; }
+      .admin .file .options:after {
+        content: ' ';
+        display: block;
+        clear: both; }
+      .admin .file .options img.fullsize {
+        float: right; }
 
 /*# sourceMappingURL=main.css.map */
