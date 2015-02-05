@@ -41,7 +41,8 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 		},
 		formatTitle:function(){
 			var date = moment(this.get('date') * 1000).format('dddd D MMMM YYYY à hh:mm');
-			return date;
+			var username = this.get('username');
+			return date + (username ? " par "+username:'');
 		},
 		classes:function(){
 			var c = '';
