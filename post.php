@@ -18,6 +18,8 @@ function RegisterNewJSON($i){
 		'date' => time(),
 		'iteration'=> $i,
 		'from'=> $from,
+		'REMOTE_ADDR'=>$_SERVER['REMOTE_ADDR'],
+		'REMOTE_HOST'=>$_SERVER['REMOTE_HOST'],
 		'gallery' => $i>0 ? 1 : 0
 	);
 

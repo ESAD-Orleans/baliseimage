@@ -12,11 +12,13 @@ function RegisterNewJSON($id,$time)
 	global $output_dir;
 
 	$json = array(
-		'from'=>null,
+		'from'=>'unknow',
 		'id' => $id,
 		'image' => $output_dir . "$id.jpg",
 		'date' => $time,
 		'iteration' => 1,
+		'REMOTE_ADDR' => $_SERVER['REMOTE_ADDR'],
+		'REMOTE_HOST' => $_SERVER['REMOTE_HOST'],
 		'gallery' => 1
 	);
 	file_put_contents($output_dir . "$id.json", json_encode($json));
