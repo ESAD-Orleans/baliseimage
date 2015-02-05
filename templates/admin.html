@@ -1,16 +1,29 @@
-<div class="admin files">
-	<% each(function(file){ %>
-	<div class="file">
+<div class="admin">
+
+	<fieldset class="filters">
+		<% iterationsFilters().each(function(v,n){ %>
+				<label class="iteration i-<%= n+1 %>"><input value="<%= n+1 %>" type="checkbox" <%= v?"checked":"" %> name="iteration" id="<%= n+1 %>"/></label>
+		<% }) %>
+		<label class="filter filter-gallery"><input type="checkbox" name="gallery" <%= filterGallery ? "checked":"" %> id="gallery"/></label>
+		<label class="filter filter-not-gallery"><input type="checkbox" name="not-gallery" <%= filterNotGallery ? "checked":"" %> id="not-gallery"/></label>
+	</fieldset>
+
+<div class= files">
+	<% filtred.each(function(file){ %>
+	<div class="file <%= file.classes() %>">
 		<div class="title"><img class="thumb" src="<%= file.image() %>" />
-			<%= file.formatTitle() %></div>
+			<div class="iteration i-<%= file.get('iteration') %>"></div>
+			<%= file.formatTitle() %>
+		</div>
 		<div class="options">
 			<div class="details">
 				<img class="fullsize" src="<%= file.image() %>"/>
-				<% file.enumerate(function(a,b){ console.log(a,b) %>
+				<% file.enumerate(function(a,b){ %>
 				<div> <%= b %> :  <%= a %></div>
 				<% }) %>
 			</div>
 		</div>
 	</div>
 	<% }) %>
+</div>
 </div>

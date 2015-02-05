@@ -4,6 +4,9 @@
 //
 define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbone, settings) {
 
+
+	moment.locale('fr')
+
 	var GalleryItem = Backbone.Model.extend({
 		initialize:function(){
 			function r(n){
@@ -37,8 +40,13 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 			return style;
 		},
 		formatTitle:function(){
-			var date = new Date(this.get('date')*1000);
+			var date = moment(this.get('date') * 1000).format('dddd D MMMM YYYY à hh:mm');
 			return date;
+		},
+		classes:function(){
+			var c = '';
+			c += this.get('gallery')==1 ? 'in-gallery ':'';
+			return c;
 		},
 		focus:function(){
 			if (this.f == 0) {
@@ -50,6 +58,10 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 				}
 			});
 		},
+		isGallery:function(){
+			console.log();
+			return this.get('gallery');
+		},
 		enumerate: function (f) {
 			return _(this.attributes).each(f);
 		}
@@ -57,6 +69,12 @@ define(['underscore', 'jquery', 'backbone', 'settings'], function (_, $, Backbon
 
 	return Backbone.Collection.extend({
 		model:GalleryItem,
-		url: 'list.php'
+		url: 'list.php',
+		iterations: [true,true,true,true,true],
+		filterGallery : true,
+		filterNotGallery : true,
+		iterationsFilters : function(){
+			return _(this.iterations);
+		}
 	});
 })
