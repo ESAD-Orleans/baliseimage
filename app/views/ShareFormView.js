@@ -11,6 +11,9 @@ define(['underscore', 'jquery', 'backbone','app/router','text!templates/sharefor
 		},
 		initialize:function(imageModel){
 			this.imageModel = imageModel;
+			this.imageModel.unset('username');
+			this.imageModel.unset('address');
+			this.imageModel.unset('email');
 			this.render();
 		},
 		render:function(){
