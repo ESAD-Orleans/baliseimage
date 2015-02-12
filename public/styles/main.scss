@@ -326,8 +326,8 @@ input[type=range] {
     border: none;
     height: 16px;
     width: 16px;
-    border-radius: 50%;
-    background: black;
+    background: url('../images/curseur.png') no-repeat center center;
+    background-size: contain;
     margin-top: 0;
     -webkit-transition: 1s;
   }
@@ -335,8 +335,8 @@ input[type=range] {
     border: none;
     height: 16px;
     width: 16px;
-    border-radius: 50%;
-    background: black;
+    background: url('../images/curseur.png') no-repeat center center;
+    background-size:contain;
     margin-top: 0;
     -moz-transition: 1s;
   }
