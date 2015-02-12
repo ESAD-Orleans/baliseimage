@@ -185,6 +185,12 @@ define(['underscore', 'jquery', 'backbone', 'text!templates/workshop.html','sett
 
 		},
 		initializeEditor: function () {
+			if(this.imageModel.image.width!=420 && this.imageModel.image.height!=594){
+				if(! confirm('l’image ne fait pas la taille recommandée :\n'+this.imageModel.image.width+'x'+this.imageModel.image.height+' contre 420x594 recommandée.\nVoulez-vous continuer ?')){
+					router.navigate('',{trigger:true});
+					return false;
+				}
+			}
 			if(canvas){
 				context = canvas.getContext('2d');
 				workshop.updateEditor();
