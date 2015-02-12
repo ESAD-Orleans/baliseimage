@@ -17,21 +17,19 @@ define(['underscore', 'jquery', 'backbone', 'app/models/GalleryCollection','text
 			this.collection.on('sync',this.render,this);
 			this.collection.on('error',this.error,this);
 			this.collection.comparator = 'date';
-			this.testPassword(true);
+			this.testPassword();
 		},
-		testPassword:function(force){
-			if(!force){
-				var password = prompt('avez vous le mot de passe ?');
-				if (!password) {
-					return Backbone.history.navigate('', {trigger: true});
-				}
-				if (password == '') {
-					password = 'wrong'
-				}
-				this.collection.url = 'list.php?password=' + password + '&';
-			}else{
-				this.collection.url = 'list.php?password=arcenf2015';
+		testPassword:function(){
+			//
+			var password = prompt('avez vous le mot de passe ?');
+			if (!password) {
+				return Backbone.history.navigate('', {trigger: true});
 			}
+			if (password == '') {
+				password = 'wrong'
+			}
+			this.collection.url = 'list.php?password=' + password + '&';
+			//
 			this.collection.fetch();
 		},
 		render:function(){

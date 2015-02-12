@@ -1,5 +1,7 @@
 <?php
-//upload.php
+
+include_once('password.php');
+
 $output_dir = "files/";
 
 
@@ -55,7 +57,7 @@ foreach ($files as $file) {
 header('Content-type: application/json');
 
 if($_GET['password']){
-	if($_GET['password']=='arcenf2015'){
+	if($_GET['password']== ADMIN_PASSWORD){
 		echo json_encode($readyToBeSend);
 	}else{
 		header('HTTP/1.1 403 Forbidden');
